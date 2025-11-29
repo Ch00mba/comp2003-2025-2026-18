@@ -1,0 +1,19 @@
+const database = 'Users';
+const collection = 'users';
+
+// Create a new database.
+use(database);
+
+// Create a new collection.
+db.createCollection("Collection");
+
+// Inserting sample user into the database
+db.users.insertOne({
+    username: "john_doe",
+    email: "john@example.com",
+    phone: "0791587463201"
+
+});
+
+// View all users in the collection
+db.users.find()
