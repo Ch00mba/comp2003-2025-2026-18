@@ -1,69 +1,91 @@
+// 
+// Select or create the database
+// 
+use LocalBite;
 
-// Select your database 
-use("LocalBite");
+// 
+// Create Collections
+// 
+db.createCollection("Users");
+db.createCollection("Restaurants");
+db.createCollection("MenuItems");
+db.createCollection("Authentication");
 
-const database = 'Users';
-const collection = 'users';
-
-// Create a new database.
-use(database);
-
-// Create a new collection.
-db.createCollection("Collection");
-
-// Inserting sample user into the database
-db.users.insertOne({
-    username: "john_doe",
+// 
+// Insert sample Users
+// 
+db.Users.insertMany([
+  {
+    user_id: 1,
+    name: "John Doe",
     email: "john@example.com",
-    phone: "0791587463201"
+    phone: "0700000001",
+    
+  },
+  {
+    user_id: 2,
+    name: "Sarah Smith",
+    email: "sarah@example.com",
+    phone: "0700000002",
+   
+  }
+]);
 
-});
-
-// View all users in the collection
-db.users.find()
-
-// Authentication (each auth record links to ONE user)
-
-db.authentication.insertMany({
-    _id: "auth101"
-    user_id: "u101",
-    password_hash: "hashed_password_1"
-})
-
-
-// Restaurant Collection
-
-db.createCollection("restaurants");
-
-db.restaurants.insertMany({
-    _id: 101,
-    name: "Turtle Bay",
+// 
+// Insert sample Restaurants
+// 
+db.Restaurants.insertMany([
+  {
+    restaurant_id: 1,
+    name: "Local Kitchen",
+    address: "15 Ocean Street, Plymouth",
     cuisine: "Caribbean"
-    rating:5.6,
-    loctaion: "Plymouth"
- {
-    _id: 102,
-    name: "Jollof's Kitchen"
+  },
+  {
+    restaurant_id: 2,
+    name: "Taste of Africa",
+    address: "44 Stone Lane, Plymouth",
     cuisine: "African"
-    rating: 4.8,
-    loction: "Plymouth"
- },
+  }
+]);
 
+// 
+// Insert sample Menu Items
+// 
+db.MenuItems.insertMany([
+  {
+    item_id: 101,
+    restaurant_id: 1,
+    name: "Jollof Rice",
+    price: 8.50
+  },
+  {
+    item_id: 102,
+    restaurant_id: 1,
+    name: "Jerk Chicken Wings",
+    price: 6.00
+  },
+  {
+    item_id: 201,
+    restaurant_id: 2,
+    name: "Fried Plantain",
+    price: 4.00
+  }
+]);
 
+// 
+// Insert sample Authentication
+// 
+db.Authentication.insertMany([
+  {
+    user_id: 1,
+    username: "john_doe",
+    password: "hashedpassword123"
+  },
+  {
+    user_id: 2,
+    username: "sarah_smith",
+    password: "hashedpassword456"
+  }
+]);
 
-
-});
-
-
-
-// Menu Items 
-// (each menu item links back to its restaurant using restaurant_id)
-
-db.menu_items.insertMany({
-    _id: "h986"
-    restaurant_id: "r201"
-    name: "Jerk Chicken Wrap",
-    description: "Grilled jerk chicken with fresh salad",
-    price: 8.99
-    category:"Wraps"
-})
