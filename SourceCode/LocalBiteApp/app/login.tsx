@@ -36,11 +36,42 @@ export default function LoginScreen() {
   const passwordOk = useMemo(() => password.length >= 6, [password]);
   const canLogin = emailOk && passwordOk;
 
+  const login = async () => {
+    try {
+      const reponse = await fetch(
+        "https://comp2003-2025-2026-18.onrender.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email,
+            password
+          })
+        }
+      );
+
+      const data = await Response.json();
+
+      if (!response.ok) {
+        Alert.alert("Login failed", data.message);
+        return;
+      }
+
+      router.replace("/(tabs)");
+
+    } catch (err) {
+      console.log(err);
+      Alert.alert("Network error", "Unable to reach server");
+    }
+  };
+
   const onLogin = () => {
     setTouched(true);
     if (!canLogin) return;
 
-    router.replace("/(tabs)");
+    login();
   };
 
   return (

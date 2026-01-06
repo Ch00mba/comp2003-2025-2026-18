@@ -39,13 +39,45 @@ export default function SignupScreen() {
 
   const canCreate = nameOk && emailOk && passOk && matchOk;
 
+  const signup = async () => {
+    try {
+      const response = await fetch(
+        "https://comp2003-2025-2026-18.onrender.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: name,
+            email: email,
+            password: pass
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message);
+        return;
+      }
+
+      alert("Account created!");
+      router.replace("/login");
+    } catch (err) {
+      console.log(err);
+      alert("Network error");
+    }
+  };
+
   const onCreate = () => {
     setTouched(true);
     if (!canCreate) return;
 
-    // UI-only for now:
+    
     // After sign up, go back to login
-    router.replace("/login");
+    signup();
   };
 
   return (
