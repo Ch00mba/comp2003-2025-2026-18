@@ -1,0 +1,210 @@
+import { MaterialIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import React, { useMemo, useState } from "react";
+import {
+    Alert,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
+
+const COLORS = {
+  bg: "#0f0a05",
+  surface: "#1a1208",
+  surface2: "#120c06",
+  border: "#2a1a0c",
+  text: "#ffffff",
+  muted: "#f0c7a0",
+  muted2: "#c9a27a",
+  accent: "#ff8c1a",
+  accentDark: "#cc6f14",
+  danger: "#ff6b6b",
+};
+
+export default function ProfileScreen() {
+  const router = useRouter();
+
+  // UI-only demo profile
+  const [name, setName] = useState("Dewmini");
+  const [email, setEmail] = useState("you@example.com");
+  const [location, setLocation] = useState("Plymouth, UK");
+
+  const emailOk = useMemo(() => /\S+@\S+\.\S+/.test(email.trim()), [email]);
+
+  const onSave = () => {
+    if (!emailOk) {
+      Alert.alert("Invalid email", "Please enter a valid email address.");
+      return;
+    }
+    Alert.alert("Saved", "Profile updated (UI only).");
+  };
+
+  const onLogout = () => {
+    router.replace("/login");
+  };
+
+  return (
+    <SafeAreaView style={styles.safe}>
+      <StatusBar barStyle="light-content" />
+
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.subtitle}>Manage your details</Text>
+        </View>
+
+        <View style={styles.card}>
+          <View style={styles.avatarRow}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>
+                {name.trim().slice(0, 1).toUpperCase()}
+              </Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.nameText}>{name}</Text>
+              <Text style={styles.smallText}>{email}</Text>
+            </View>
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.label}>Name</Text>
+            <TextInput
+              value={name}
+              onChangeText={setName}
+              placeholder="Your name"
+              placeholderTextColor={COLORS.muted2}
+              style={styles.input}
+            />
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              placeholder="you@example.com"
+              placeholderTextColor={COLORS.muted2}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              style={styles.input}
+            />
+            {!emailOk ? (
+              <Text style={styles.error}>Enter a valid email.</Text>
+            ) : null}
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.label}>Location</Text>
+            <TextInput
+              value={location}
+              onChangeText={setLocation}
+              placeholder="City"
+              placeholderTextColor={COLORS.muted2}
+              style={styles.input}
+            />
+          </View>
+
+          <Pressable onPress={onSave} style={styles.primaryBtn}>
+            <MaterialIcons name="save" size={18} color={COLORS.bg} />
+            <Text style={styles.primaryText}>Save</Text>
+          </Pressable>
+
+          <Pressable onPress={onLogout} style={styles.outlineBtn}>
+            <MaterialIcons name="logout" size={18} color={COLORS.accent} />
+            <Text style={styles.outlineText}>Logout</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: COLORS.bg },
+
+  
+  scroll: {
+    paddingBottom: 110,
+  },
+
+  header: { paddingHorizontal: 16, paddingTop: 80, paddingBottom: 20 },
+  title: { color: COLORS.text, fontSize: 28, fontWeight: "900" },
+  subtitle: { color: COLORS.muted, marginTop: 6 },
+
+  card: {
+    marginHorizontal: 16,
+    marginTop: 10,
+    backgroundColor: COLORS.surface,
+    borderRadius: 18,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+
+  avatarRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 14,
+  },
+  avatar: {
+    width: 56,
+    height: 56,
+    borderRadius: 18,
+    backgroundColor: COLORS.surface2,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  avatarText: { color: COLORS.accent, fontWeight: "900", fontSize: 20 },
+  nameText: { color: COLORS.text, fontWeight: "900", fontSize: 18 },
+  smallText: { color: COLORS.muted, marginTop: 4 },
+
+  field: { marginTop: 12 },
+  label: { color: COLORS.text, fontWeight: "700", marginBottom: 8 },
+  input: {
+    backgroundColor: COLORS.surface2,
+    borderColor: COLORS.border,
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    color: COLORS.text,
+  },
+  error: { color: COLORS.danger, marginTop: 8, fontSize: 12 },
+
+  primaryBtn: {
+    marginTop: 16,
+    backgroundColor: COLORS.accent,
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 8,
+  },
+  primaryText: { color: COLORS.bg, fontWeight: "900", fontSize: 16 },
+
+  outlineBtn: {
+    marginTop: 12,
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 8,
+    backgroundColor: COLORS.surface2,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  outlineText: { color: COLORS.accent, fontWeight: "900", fontSize: 16 },
+});
