@@ -1,6 +1,0 @@
-<resources>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="orange">#FF6B35</color> <!-- matches the login button -->
-    <color name="red">#FF0000</color> <!-- for Sign Up link -->
-</resources>
